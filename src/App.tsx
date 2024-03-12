@@ -25,7 +25,6 @@ const processInput = (command: string): JSX.Element | string => {
       <pre>
         {cowsay.say(input, {
           n: true,
-          // W: 100
         })}
       </pre>
     );
