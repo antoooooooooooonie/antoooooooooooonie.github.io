@@ -12,10 +12,42 @@ const inputPrefix = <span>guest&#64;decodefabriek&#126;&gt; </span>;
 
 const processInput = (command: string): JSX.Element | string => {
   if (command.startsWith("source")) {
-    return <a href="https://github.com/antoooooooooooonie/antoooooooooooonie.github.io">&lt;Open GitHub&gt;</a>;
+    return (
+      <a href="https://github.com/antoooooooooooonie/antoooooooooooonie.github.io">
+        &lt;Open GitHub&gt;
+      </a>
+    );
   }
   if (command.startsWith("help")) {
     return processInput(`cowsay ${helpMessage}`);
+  }
+  if (command.startsWith("status")) {
+    return "I am currently not taking on new clients.";
+  }
+  if (command.startsWith("about")) {
+    return (
+      <pre>{`* UI: I opted for a text user interface
+because it's more efficient.  
+
+* Privacy:
+I don't save any of your info.
+Not because I don't care about, but because I do <3`}</pre>
+    );
+  }
+
+  if (command.startsWith("contact")) {
+    return (
+      <>
+        <p>
+          I am most easily reachable via{" "}
+          <a href="mailto:tribute_massifs.0j@icloud.com">
+            tribute_massifs.0j@icloud.com
+          </a>
+          .
+        </p>
+        <p><em>This is a relay address that will send mail to my actual address.</em></p>
+      </>
+    );
   }
 
   if (command.startsWith("cowsay")) {
@@ -32,58 +64,54 @@ const processInput = (command: string): JSX.Element | string => {
   return `Unknown command: ${command}`;
 };
 
-const helpMessage =
-`Hello, I'm Anthony.
+// Hidden commands:
+// * cowsay {input}: make the cow say something
+
+const helpMessage = `Hello, I'm Anthony Madhvani.
+
+I run a one-man software consulting company called 
+De Codefabriek, which roughly translates to
+'The Code Manufactory'.
+I promise it sounds way cooler in Dutch.
 
 Commands:
+* info: more info about me
+* clients: my past and current clients (duh)
+* status: am I currently available for work?
+* contact: how to reach me and legal stuff
 * source: view this site's source code
+* about: website lore! so meta!
 * help: show this message
 
 Controls:
 * CTRL+L: clear the buffer
 * ↑: go back in history
-* ↓: go forward in history
-* cowsay {input}: make the cow say something`;
+* ↓: go forward in history`;
 
 type InputPromptProps = {
   command: Command;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string | null;
   handleInputSubmit: (event: ReactKeyboardEvent<HTMLInputElement>) => void;
   // key: number;
 };
 
 const InputPrompt: React.FC<InputPromptProps> = ({
   command,
-  handleInputChange,
+  value,
   handleInputSubmit,
 }) => {
-  const [creationDate] = useState(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Save the current cursor position before the state is updated
-    const cursorPosition = event.currentTarget.selectionStart;
-
-    handleInputChange(event);
-
-    // Restore the cursor position after the component is updated
-    requestAnimationFrame(() => {
-      if (inputRef.current) {
-        inputRef.current.selectionStart = cursorPosition;
-        inputRef.current.selectionEnd = cursorPosition;
-      }
-    });
-  };
-
   return (
-    <div key={creationDate}>
+    <div>
       {!command.hidePrompt && (
         <>
           {inputPrefix}
           <input
             ref={inputRef}
-            value={command.input}
-            onChange={handleTextChange}
+            defaultValue={value || ""}
+            // Don't allow editing commands that have already been handled
+            disabled={!!command.output}
             onKeyDown={handleInputSubmit}
             autoFocus={true}
             style={{
@@ -165,27 +193,19 @@ function App() {
     <InputPrompt
       key={`${command.input}_${index}`}
       command={command}
+      value={command.input}
       handleInputSubmit={(event: ReactKeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-          event.preventDefault();
-          event.currentTarget.disabled = true;
+          const inputValue = (event.target as HTMLInputElement).value;
 
           const prevCommands = commands.slice(0, -1);
           setCommandCursor(0);
           setCommand([
             ...prevCommands,
-            { input: command.input, output: processInput(command.input) },
+            { input: inputValue, output: processInput(inputValue) },
             { input: "", output: null },
           ]);
         }
-      }}
-      handleInputChange={(event) => {
-        const prevCommands = commands.slice(0, -1);
-
-        setCommand([
-          ...prevCommands,
-          { input: event.target.value, output: command.output },
-        ]);
       }}
     />
   ));
