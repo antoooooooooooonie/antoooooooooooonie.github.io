@@ -1,16 +1,16 @@
 #root {
-  /* max-width: 1280px; */
+  max-width: 500px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: left;
   font-family: "monospace";
   font-family: "IBM Plex Mono", monospace;
   font-weight: 400;
   font-style: normal;
+  font-size: small;
 }
 
 body {
-  background: linear-gradient(
+  /* background: linear-gradient(
     to right,
     orange,
     yellow,
@@ -21,7 +21,7 @@ body {
   );
   background-clip: text;
   -webkit-background-clip: text;
-  color: transparent;
+  color: transparent; */
 }
 
 input,

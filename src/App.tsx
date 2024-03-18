@@ -5,94 +5,60 @@ import {
   useEffect,
 } from "react";
 import "./App.css";
+import Markdown from "react-markdown";
+import { data } from "./data";
 
-import * as cowsay from "cowsay2";
-
-const inputPrefix = <span>guest&#64;decodefabriek&#126;&gt; </span>;
+interface Command {
+  input: string;
+  hidePrompt?: boolean;
+  output: string | JSX.Element | null;
+}
 
 const processInput = (command: string): JSX.Element | string => {
+  if (command == "") {
+    return command;
+  }
   if (command.startsWith("source")) {
-    return (
-      <a href="https://github.com/antoooooooooooonie/antoooooooooooonie.github.io">
-        &lt;Open GitHub&gt;
-      </a>
-    );
+    return <PromptOutput>{data.source}</PromptOutput>;
+  }
+  if (command.startsWith("service")) {
+    return <PromptOutput>{data.services}</PromptOutput>;
   }
   if (command.startsWith("help")) {
-    return processInput(`cowsay ${helpMessage}`);
+    return processInput(`cowsay ${data.help}`);
   }
   if (command.startsWith("status")) {
-    return "I am currently not taking on new clients.";
+    return <PromptOutput>{data.status}</PromptOutput>;
   }
   if (command.startsWith("about")) {
-    return (
-      <pre>{`* UI: I opted for a text user interface
-because it's more efficient.  
-
-* Privacy:
-I don't save any of your info.
-Not because I don't care about, but because I do <3`}</pre>
-    );
+    return <PromptOutput>{data.about}</PromptOutput>;
   }
 
   if (command.startsWith("contact")) {
+    return <PromptOutput>{data.contact}</PromptOutput>;
+  }
+
+  if (command.startsWith("cowsay")) {
+    const input = command.split(/cowsay (.*)/s).join("");
     return (
       <>
-        <p>
-          I am most easily reachable via{" "}
-          <a href="mailto:tribute_massifs.0j@icloud.com">
-            tribute_massifs.0j@icloud.com
-          </a>
-          .
-        </p>
-        <p><em>This is a relay address that will send mail to my actual address.</em></p>
+        <PromptOutput>{input}</PromptOutput>
+        <PromptOutput>{data.cow}</PromptOutput>
       </>
     );
   }
 
-  if (command.startsWith("cowsay")) {
-    // const input = command.split("cowsay ", 2)[1];
-    const input = command.split(/cowsay (.*)/s).join("");
-    return (
-      <pre>
-        {cowsay.say(input, {
-          n: true,
-        })}
-      </pre>
-    );
-  }
-  return `Unknown command: ${command}`;
+  return <PromptOutput>{data.unknown(command)}</PromptOutput>;
 };
-
-// Hidden commands:
-// * cowsay {input}: make the cow say something
-
-const helpMessage = `Hello, I'm Anthony Madhvani.
-
-I run a one-man software consulting company called 
-De Codefabriek, which roughly translates to
-'The Code Manufactory'.
-I promise it sounds way cooler in Dutch.
-
-Commands:
-* info: more info about me
-* clients: my past and current clients (duh)
-* status: am I currently available for work?
-* contact: how to reach me and legal stuff
-* source: view this site's source code
-* about: website lore! so meta!
-* help: show this message
-
-Controls:
-* CTRL+L: clear the buffer
-* ↑: go back in history
-* ↓: go forward in history`;
 
 type InputPromptProps = {
   command: Command;
   value: string | null;
   handleInputSubmit: (event: ReactKeyboardEvent<HTMLInputElement>) => void;
-  // key: number;
+};
+
+const PromptOutput: React.FC<{ children: string | null }> = ({ children }) => {
+  return <Markdown>{children}</Markdown>;
 };
 
 const InputPrompt: React.FC<InputPromptProps> = ({
@@ -106,9 +72,10 @@ const InputPrompt: React.FC<InputPromptProps> = ({
     <div>
       {!command.hidePrompt && (
         <>
-          {inputPrefix}
+          {data.prefix}
           <input
             ref={inputRef}
+            placeholder="Enter command here"
             defaultValue={value || ""}
             // Don't allow editing commands that have already been handled
             disabled={!!command.output}
@@ -123,18 +90,10 @@ const InputPrompt: React.FC<InputPromptProps> = ({
           />
         </>
       )}
-      <div>
-        <span>{command.output}</span>
-      </div>
+      <div>{command.output}</div>
     </div>
   );
 };
-
-interface Command {
-  input: string;
-  hidePrompt?: boolean;
-  output: string | JSX.Element | null;
-}
 
 function App() {
   const [commands, setCommand] = useState<Command[]>([
@@ -198,13 +157,14 @@ function App() {
         if (event.key === "Enter") {
           const inputValue = (event.target as HTMLInputElement).value;
 
+          const command = {
+            input: inputValue,
+            output: processInput(inputValue.toLocaleLowerCase()),
+          };
+
           const prevCommands = commands.slice(0, -1);
           setCommandCursor(0);
-          setCommand([
-            ...prevCommands,
-            { input: inputValue, output: processInput(inputValue) },
-            { input: "", output: null },
-          ]);
+          setCommand([...prevCommands, command, { input: "", output: null }]);
         }
       }}
     />
