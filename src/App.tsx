@@ -7,6 +7,7 @@ import {
 import "./App.css";
 import Markdown from "react-markdown";
 import { data } from "./data";
+import { useWindowWidth } from "./hooks/useWindowWidth";
 
 interface Command {
   input: string;
@@ -68,11 +69,14 @@ const InputPrompt: React.FC<InputPromptProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { isMobile } = useWindowWidth();
+
+
   return (
     <div>
       {!command.hidePrompt && (
         <>
-          {data.prefix}
+          {isMobile ? data.prefixMobile : data.prefix}
           <input
             ref={inputRef}
             placeholder="Enter command here"

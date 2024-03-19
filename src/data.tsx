@@ -90,5 +90,6 @@ This is a relay address that will send mail to my actual address.`,
             ||     ||
 ~~~`,
   prefix: "guest@decodefabriek~> ",
+  prefixMobile: "~> ",
   unknown: (input: string) => `Unknown command: ${input}`,
 };

@@ -1,6 +1,7 @@
 #root {
   max-width: 500px;
   margin: 0 auto;
+  padding: 2em;
   text-align: left;
   font-family: "monospace";
   font-family: "IBM Plex Mono", monospace;
