@@ -27,10 +27,9 @@ Commands:
 
 Controls:
 
-* CTRL+L: clear the buffer
 * ↑: go back in history
 * ↓: go forward in history
-* CTRL+R: search history`,
+* CTRL+L: clear the buffer`,
 
   services: `
 * Lead the complete redesign of frontends, from brownfield to greenfield
@@ -51,27 +50,27 @@ Controls:
   about: `
 * UI: Besides the novelty factor, I also genuinely 
 believe a text user interface works really well here.
-It allows me to create clutter-free, high-value store
+It allows me to create a clutter-free, high-density store
 of information.
 And of course, it saves me the hassle of having to
 vertically center a <div>. 
 
-Even if you don't realize it, you're using command 
+>Even if you don't realize it, you're using command 
 prompts everyday: When you search on Google, or ask
 ChatGPT how many cats can fit into a standard minivan.
 
-I wanted to explore this type of interface and see if
+>I wanted to explore this type of interface and see if
 it's a viable option as the main navigation method on a 
 website.
 
-* Privacy:
+* Privacy notice:
 I don't save any of your info.
 Not because I don't care about, but because I do <3.
 
 * Company:
-Enterprise number: 0761.643.208
-Name: De Codefabriek
-Legal form:  Private limited company (BV)`,
+  * Enterprise number: 0761.643.208
+  * Name: De Codefabriek
+  * Legal form:  Private limited company (BV)`,
 
   status: "I am currently not taking on new clients.",
 
