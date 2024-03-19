@@ -12,44 +12,53 @@ import { useWindowWidth } from "./hooks/useWindowWidth";
 interface Command {
   input: string;
   hidePrompt?: boolean;
+  hideInHistory?: boolean;
   output: string | JSX.Element | null;
 }
 
-const processInput = (command: string): JSX.Element | string => {
-  if (command == "") {
-    return command;
-  }
-  if (command.startsWith("source")) {
-    return <PromptOutput>{data.source}</PromptOutput>;
-  }
-  if (command.startsWith("service")) {
-    return <PromptOutput>{data.services}</PromptOutput>;
-  }
-  if (command.startsWith("help")) {
-    return processInput(`cowsay ${data.help}`);
-  }
-  if (command.startsWith("status")) {
-    return <PromptOutput>{data.status}</PromptOutput>;
-  }
-  if (command.startsWith("about")) {
-    return <PromptOutput>{data.about}</PromptOutput>;
-  }
+const processInput = (command: string): Command => {
+  const getOutput = () => {
+    if (command == "") {
+      return command;
+    }
+    if (command.startsWith("source")) {
+      return <PromptOutput>{data.source}</PromptOutput>;
+    }
+    if (command.startsWith("service")) {
+      return <PromptOutput>{data.services}</PromptOutput>;
+    }
+    if (command.startsWith("help")) {
+      return processInput(`cowsay ${data.help}`).output;
+    }
+    if (command.startsWith("status")) {
+      return <PromptOutput>{data.status}</PromptOutput>;
+    }
+    if (command.startsWith("about")) {
+      return <PromptOutput>{data.about}</PromptOutput>;
+    }
 
-  if (command.startsWith("contact")) {
-    return <PromptOutput>{data.contact}</PromptOutput>;
-  }
+    if (command.startsWith("contact")) {
+      return <PromptOutput>{data.contact}</PromptOutput>;
+    }
 
-  if (command.startsWith("cowsay")) {
-    const input = command.split(/cowsay (.*)/s).join("");
-    return (
-      <>
-        <PromptOutput>{input}</PromptOutput>
-        <PromptOutput>{data.cow}</PromptOutput>
-      </>
-    );
-  }
+    if (command.startsWith("cowsay")) {
+      const input = command.split(/cowsay (.*)/s).join("");
+      return (
+        <>
+          <PromptOutput>{input}</PromptOutput>
+          <PromptOutput>{data.cow}</PromptOutput>
+        </>
+      );
+    }
 
-  return <PromptOutput>{data.unknown(command)}</PromptOutput>;
+    return <PromptOutput>{data.unknown(command)}</PromptOutput>;
+  };
+
+  return {
+    input: command,
+    output: getOutput(),
+    hideInHistory: command == "",
+  };
 };
 
 type InputPromptProps = {
@@ -71,7 +80,6 @@ const InputPrompt: React.FC<InputPromptProps> = ({
 
   const { isMobile } = useWindowWidth();
 
-
   return (
     <div>
       {!command.hidePrompt && (
@@ -84,7 +92,7 @@ const InputPrompt: React.FC<InputPromptProps> = ({
             // Don't allow editing commands that have already been handled
             disabled={!!command.output}
             onKeyDown={handleInputSubmit}
-            autoFocus={true}
+            autoFocus={!isMobile}
             style={{
               outline: "none",
               border: "none",
@@ -102,9 +110,8 @@ const InputPrompt: React.FC<InputPromptProps> = ({
 function App() {
   const [commands, setCommand] = useState<Command[]>([
     {
-      input: "help",
       hidePrompt: true,
-      output: processInput("help"),
+      ...processInput("help"),
     },
     { input: "", output: null },
   ]);
@@ -123,19 +130,22 @@ function App() {
 
         const newCursor = commandCursor + (event.key === "ArrowUp" ? -1 : 1);
         const prevCommands = commands.slice(0, -1);
+        const prevCommandsFiltered = prevCommands.filter((c) => !c.hideInHistory);
 
         const lastCommand = { ...commands[commands.length - 1] };
 
+        const commandIndex = prevCommandsFiltered[prevCommandsFiltered.length + newCursor];
+
         // Fill the current prompt with the previously entered text
-        if (prevCommands[prevCommands.length + newCursor]) {
+        if (commandIndex) {
           setCommandCursor(newCursor);
           lastCommand.input =
-            prevCommands[prevCommands.length + newCursor].input;
+            commandIndex.input;
           setCommand([...prevCommands, lastCommand]);
         }
 
         // Reset the cursor to 0 when we run out of command history
-        if (!prevCommands[prevCommands.length + newCursor]) {
+        if (!commandIndex) {
           setCommandCursor(0);
           lastCommand.input = "";
           setCommand([...prevCommands, lastCommand]);
@@ -159,13 +169,10 @@ function App() {
       value={command.input}
       handleInputSubmit={(event: ReactKeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-          const input = (event.target as HTMLInputElement);
+          const input = event.target as HTMLInputElement;
           const inputValue = input.value;
 
-          const command = {
-            input: inputValue,
-            output: processInput(inputValue.toLocaleLowerCase()),
-          };
+          const command = processInput(inputValue.toLocaleLowerCase());
 
           // Remove keyboard focus
           input.blur();
