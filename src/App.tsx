@@ -57,6 +57,7 @@ const processInput = (command: string): Command => {
     input: command,
     output: getOutput(),
     hideInHistory: command == "",
+    hidePrompt: false,
   };
 };
 
