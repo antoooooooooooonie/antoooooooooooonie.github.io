@@ -2,6 +2,10 @@
 
 This is my personal website built with Vite and React. It showcases my projects, skills, and provides information about me.
 
+There is no backend. It's just a static website.
+
+![Preview of the website](./src/assets/image.png)
+
 ## Features
 
 - Responsive design
@@ -34,7 +38,7 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 # Deployment
 
-We use GitHub Actions:
+Using GitHub Actions:
 
 1. See `.github/workflows/deploy.yml` in the root directory of the repository
 

@@ -71,7 +71,7 @@ website.
   - Is it a good fit for a portfolio website?
   - What if we don't need to take into account legacy terminal emulator restrictions, such as only being able to display plain text?
   - What if we can use modern web technologies to make it look and feel like a real terminal?
-  - What if we could output complex HTML structures, like images and tables?
+  - What if we could output complex HTML structures like images and tables, and use links?
 
 * Privacy notice:
 I don't save _any_ of your info.
