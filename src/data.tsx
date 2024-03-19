@@ -16,7 +16,7 @@ Currently, I'm located in Flanders, Belgium.
 
 Commands (case insensitive):
 
-* [clients](/#clients): my past and current clients
+* [clients](/#clients): some of my former clients
 * [services](/#services): what I can do for you
 * [status](/#status): am I currently available for work
 * [contact](/#contact): how to reach me
@@ -30,6 +30,14 @@ Controls:
 * ↑: go back in history
 * ↓: go forward in history
 * CTRL+L: clear the buffer`,
+
+  clients: `
+* Telenet
+* Amonis
+* Keytrade Bank
+* Shop Bonsai
+* Napoleon Games
+* Superbet`,
 
   services: `
 * Lead the complete redesign of frontends, from brownfield to greenfield
@@ -85,10 +93,18 @@ Not because I don't care about, but because I do <3. Don't take my word for it, 
   status: "I am currently not taking on new clients.",
 
   contact: `
-I am most easily reachable via <tribute_massifs.0j@icloud.com>.
+* The easiest way to reach me is via <tribute_massifs.0j@icloud.com>
+>This is a relay address that will send mail to my actual address. My real address used to be listed here but unfortunately, I've had to remove it due to spam.
 
-This is a relay address that will send mail to my actual address.
-My real address used to be listed here but unfortunately, I've had to remove it due to spam.`,
+* [<LinkedIn>](https://www.linkedin.com/in/anthonymadhvani/)
+>If you're into that sort of thing.
+
+* [<Spotify>](https://open.spotify.com/user/116870718?si=794e9a3c7dbb4c36)
+>I'm probably listening to something right now!
+
+* [<Twitch>](https://www.twitch.tv/joppiesnacksaus)
+>If your question is about my professional services, please don't ask me here. I'm not going to answer. But if you want to watch me play games or see my cats, this is the place to be.`
+, 
 
   source: `[<Open GitHub>](https://github.com/antoooooooooooonie/antoooooooooooonie.github.io)`,
 

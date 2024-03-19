@@ -8,27 +8,31 @@ export const processInput = (command: string): Command => {
       return null;
     }
 
-    if (command.startsWith("source")) {
+    if (command.startsWith("so")) {
       return <PromptOutput>{data.source}</PromptOutput>;
     }
 
-    if (command.startsWith("service")) {
+    if (command.startsWith("cl")) {
+      return <PromptOutput>{data.clients}</PromptOutput>;
+    }
+
+    if (command.startsWith("se")) {
       return <PromptOutput>{data.services}</PromptOutput>;
     }
 
-    if (command.startsWith("status")) {
+    if (command.startsWith("st")) {
       return <PromptOutput>{data.status}</PromptOutput>;
     }
 
-    if (command.startsWith("about")) {
+    if (command.startsWith("ab")) {
       return <PromptOutput>{data.about}</PromptOutput>;
     }
 
-    if (command.startsWith("contact")) {
+    if (command.startsWith("con")) {
       return <PromptOutput>{data.contact}</PromptOutput>;
     }
 
-    if (command.startsWith("help")) {
+    if (command.startsWith("he")) {
       return processInput(`cowsay ${data.help}`).output;
     }
 
