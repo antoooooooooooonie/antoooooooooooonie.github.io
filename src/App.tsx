@@ -159,12 +159,16 @@ function App() {
       value={command.input}
       handleInputSubmit={(event: ReactKeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-          const inputValue = (event.target as HTMLInputElement).value;
+          const input = (event.target as HTMLInputElement);
+          const inputValue = input.value;
 
           const command = {
             input: inputValue,
             output: processInput(inputValue.toLocaleLowerCase()),
           };
+
+          // Remove keyboard focus
+          input.blur();
 
           const prevCommands = commands.slice(0, -1);
           setCommandCursor(0);
