@@ -2,90 +2,48 @@ import {
   useState,
   KeyboardEvent as ReactKeyboardEvent,
   useEffect,
-  useMemo,
 } from "react";
 import "./App.css";
-import { data } from "./data";
 import { Command } from "./interfaces/Command";
 import { InputPrompt } from "./components/InputPrompt";
-import { PromptOutput } from "./components/PromptOutput";
+import { emptyCommand, initialInput, processInput } from "./utils/commands";
 
-const processInput = (command: string): Command => {
-  const getOutput = () => {
-    if (command == "") {
-      return command;
-    }
+// When the user navigated to an anchor link, use the content of the anchor link as the command and remove the anchor link from the URL
+const useListenOnAnchorLink = (
+  setCommand: React.Dispatch<React.SetStateAction<Command[]>>
+) => {
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        setCommand((commands) => [
+          ...commands.slice(0, -1),
+          processInput(hash.slice(1)),
+          emptyCommand,
+        ]);
 
-    if (command.startsWith("source")) {
-      return <PromptOutput>{data.source}</PromptOutput>;
-    }
+        // Remove the anchor link
+        history.pushState(
+          "",
+          document.title,
+          window.location.pathname + window.location.search
+        );
+      }
+    };
 
-    if (command.startsWith("service")) {
-      return <PromptOutput>{data.services}</PromptOutput>;
-    }
+    window.addEventListener("hashchange", handleHashChange, false);
 
-    if (command.startsWith("status")) {
-      return <PromptOutput>{data.status}</PromptOutput>;
-    }
-
-    if (command.startsWith("about")) {
-      return <PromptOutput>{data.about}</PromptOutput>;
-    }
-
-    if (command.startsWith("contact")) {
-      return <PromptOutput>{data.contact}</PromptOutput>;
-    }
-
-    if (command.startsWith("help")) {
-      return processInput(`cowsay ${data.help}`).output;
-    }
-
-    if (command.startsWith("cowsay")) {
-      const input = command.split(/cowsay (.*)/s).join("");
-      return (
-        <>
-          <PromptOutput>{input}</PromptOutput>
-          <PromptOutput>{data.cow}</PromptOutput>
-        </>
-      );
-    }
-
-    return <PromptOutput>{data.unknown(command)}</PromptOutput>;
-  };
-
-  return {
-    input: command,
-    output: getOutput(),
-    hideInHistory: command == "",
-    hidePrompt: false,
-  };
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange, false);
+    };
+  }, [setCommand]);
 };
 
 function App() {
-  const emptyCommand: Command = useMemo(
-    () => ({
-      input: "",
-      output: null,
-      hideInHistory: true,
-      hidePrompt: false,
-    }),
-    []
-  );
-
-  const initialInput = useMemo(
-    () => [
-      {
-        ...processInput("help"),
-        hidePrompt: true,
-        hideInHistory: false,
-      },
-      emptyCommand,
-    ],
-    [emptyCommand]
-  );
-
   const [commands, setCommand] = useState<Command[]>(initialInput);
   const [commandCursor, setCommandCursor] = useState<number>(0);
+
+  useListenOnAnchorLink(setCommand);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
@@ -130,7 +88,7 @@ function App() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [commands, commandCursor, initialInput]);
+  }, [commands, commandCursor]);
 
   return commands.map((command, index) => (
     <InputPrompt
@@ -145,11 +103,13 @@ function App() {
           // Remove keyboard focus
           input.blur();
 
-          const command = processInput(inputValue.toLocaleLowerCase());
-
-          const prevCommands = commands.slice(0, -1);
           setCommandCursor(0);
-          setCommand([...prevCommands, command, emptyCommand]);
+
+          setCommand((commands) => [
+            ...commands.slice(0, -1),
+            processInput(inputValue.toLocaleLowerCase()),
+            emptyCommand,
+          ]);
         }
       }}
     />

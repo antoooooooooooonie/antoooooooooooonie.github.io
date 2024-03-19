@@ -16,13 +16,13 @@ Currently, I'm located in Flanders, Belgium.
 
 Commands (case insensitive):
 
-* clients: my past and current clients
-* services: what I can do for you
-* status: am I currently available for work
-* contact: how to reach me
-* source: view this site's source code
-* about: website lore! so meta!
-* help: show this message
+* [clients](/#clients): my past and current clients
+* [services](/#services): what I can do for you
+* [status](/#status): am I currently available for work
+* [contact](/#contact): how to reach me
+* [source](/#source): view this site's source code
+* [about](/#about): website lore! so meta!
+* [help](/#help): show this message
 
 
 Controls:
@@ -63,9 +63,19 @@ ChatGPT how many cats can fit into a standard minivan.
 it's a viable option as the main navigation method on a 
 website.
 
+* Specifically, I wanted an answer to these questions:
+  - Is it accessible?
+  - Is it user-friendly?
+  - Is it fun?
+  - Is it practical?
+  - Is it a good fit for a portfolio website?
+  - What if we don't need to take into account legacy terminal emulator restrictions, such as only being able to display plain text?
+  - What if we can use modern web technologies to make it look and feel like a real terminal?
+  - What if we could output complex HTML structures, like images and tables?
+
 * Privacy notice:
 I don't save _any_ of your info.
-Not because I don't care about, but because I do <3.
+Not because I don't care about, but because I do <3. Don't take my word for it, check the [source code](/#source)!
 
 * Company:
   * Enterprise number: 0761.643.208
