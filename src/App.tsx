@@ -62,15 +62,26 @@ const processInput = (command: string): Command => {
 };
 
 function App() {
+  const emptyCommand: Command = useMemo(
+    () => ({
+      input: "",
+      output: null,
+      hideInHistory: true,
+      hidePrompt: false,
+    }),
+    []
+  );
+
   const initialInput = useMemo(
     () => [
       {
-        hidePrompt: true,
         ...processInput("help"),
+        hidePrompt: true,
+        hideInHistory: false,
       },
-      { input: "", output: null },
+      emptyCommand,
     ],
-    []
+    [emptyCommand]
   );
 
   const [commands, setCommand] = useState<Command[]>(initialInput);
@@ -138,7 +149,7 @@ function App() {
 
           const prevCommands = commands.slice(0, -1);
           setCommandCursor(0);
-          setCommand([...prevCommands, command, { input: "", output: null }]);
+          setCommand([...prevCommands, command, emptyCommand]);
         }
       }}
     />

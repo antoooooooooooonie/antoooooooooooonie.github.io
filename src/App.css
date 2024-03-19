@@ -10,19 +10,9 @@
   font-size: small;
 }
 
-body {
-  /* background: linear-gradient(
-    to right,
-    orange,
-    yellow,
-    green,
-    cyan,
-    blue,
-    violet
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent; */
+em {
+  font-weight: 300;
+  font-style: italic;
 }
 
 input,

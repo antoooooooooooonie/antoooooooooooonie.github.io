@@ -7,14 +7,14 @@ De Codefabriek, which roughly translates to
 
 I promise it sounds way cooler in Dutch.
 
-My main focus is on React.JS and Node.JS.
+My main focus is on React and Node.
 
 I've served many clients over the years, big and
 small.  
 
 Currently, I'm located in Flanders, Belgium.
 
-Commands:
+Commands (case insensitive):
 
 * clients: my past and current clients
 * services: what I can do for you
@@ -64,7 +64,7 @@ it's a viable option as the main navigation method on a
 website.
 
 * Privacy notice:
-I don't save any of your info.
+I don't save _any_ of your info.
 Not because I don't care about, but because I do <3.
 
 * Company:
@@ -75,8 +75,10 @@ Not because I don't care about, but because I do <3.
   status: "I am currently not taking on new clients.",
 
   contact: `
-I am most easily reachable via tribute_massifs.0j@icloud.com.
-This is a relay address that will send mail to my actual address.`,
+I am most easily reachable via <tribute_massifs.0j@icloud.com>.
+
+This is a relay address that will send mail to my actual address.
+My real address used to be listed here but unfortunately, I've had to remove it due to spam.`,
 
   source: `[<Open GitHub>](https://github.com/antoooooooooooonie/antoooooooooooonie.github.io)`,
 
