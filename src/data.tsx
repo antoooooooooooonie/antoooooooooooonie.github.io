@@ -12,7 +12,7 @@ My main focus is on React and Node.
 I've served many clients over the years, big and
 small.  
 
-Currently, I'm located in Flanders, Belgium.
+Currently I'm located in Flanders, Belgium.
 
 Commands (case insensitive):
 
