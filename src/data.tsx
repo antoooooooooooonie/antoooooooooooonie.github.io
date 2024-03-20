@@ -34,6 +34,8 @@ Controls:
   clients: `
 * Telenet
 * Amonis
+* SDWorkx
+* Tadaam
 * Keytrade Bank
 * Shop Bonsai
 * Napoleon Games
