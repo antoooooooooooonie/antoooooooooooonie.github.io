@@ -92,7 +92,7 @@ Not because I don't care about, but because I do <3. Don't take my word for it, 
   * Name: De Codefabriek
   * Legal form:  Private limited company (BV)`,
 
-  status: "I am currently not taking on new clients.",
+  status: "I am currently available for a new opportunity.",
 
   contact: `
 * The easiest way to reach me is via <tribute_massifs.0j@icloud.com>
