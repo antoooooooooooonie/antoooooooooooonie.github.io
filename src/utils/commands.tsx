@@ -1,4 +1,5 @@
 import { PromptOutput } from "../components/PromptOutput";
+import { Tetris } from "../components/Tetris";
 import { data } from "../data";
 import { Command } from "../interfaces/Command";
 
@@ -34,6 +35,10 @@ export const processInput = (command: string): Command => {
 
     if (command.startsWith("he")) {
       return processInput(`cowsay ${data.help}`).output;
+    }
+
+    if (command.startsWith("tetris")) {
+      return <Tetris/>;
     }
 
     if (command.startsWith("cowsay")) {
