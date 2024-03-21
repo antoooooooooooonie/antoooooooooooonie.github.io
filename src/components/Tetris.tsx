@@ -410,8 +410,6 @@ export const Tetris = () => {
     level: 1,
   });
 
-  console.debug(gameState);
-
   const intervalId = useRef<number | null>(0);
   const [tick, setTick] = useState(0);
   const [timeInterval, setTimeInterval] = useState(3000);
