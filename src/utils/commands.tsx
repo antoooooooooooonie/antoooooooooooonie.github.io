@@ -38,7 +38,7 @@ export const processInput = (command: string): Command => {
     }
 
     if (command.startsWith("tetris")) {
-      return <Tetris/>;
+      return <Tetris />;
     }
 
     if (command.startsWith("cowsay")) {
@@ -65,6 +65,12 @@ export const processInput = (command: string): Command => {
 export const emptyCommand: Command = processInput("");
 
 export const initialInput: Command[] = [
+  {
+    input: "tetris",
+    hidePrompt: true,
+    hideInHistory: false,
+    output: null,
+  },
   {
     ...processInput("help"),
     hidePrompt: true,
