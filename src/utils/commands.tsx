@@ -1,5 +1,5 @@
 import { PromptOutput } from "../components/PromptOutput";
-import { Tetris } from "../components/Tetris";
+import { Tetris } from "../components/Tetris/Tetris";
 import { data } from "../data";
 import { Command } from "../interfaces/Command";
 
